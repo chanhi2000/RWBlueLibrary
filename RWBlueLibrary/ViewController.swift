@@ -8,18 +8,25 @@
 
 import UIKit
 
-public let tableViewCellIdentifier = "cellid"
+private enum Constants {
+    static let tableViewCellIdentifier = "cell"
+}
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ViewController: UIViewController, UITableViewDelegate {
 
-    let undoBarButtonItem:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .undo, target: self, action: nil)
-    let flexibleSpace:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-    let trashBarButtonItem:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: nil)
+    private let undoBarButtonItem:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .undo, target: self, action: nil)
+    private let flexibleSpace:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+    private let trashBarButtonItem:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: nil)
+    
+    private var currentAlbumIndex = 0
+    var currentAlbumData:[AlbumData]?
+    private var allAlbums = [Album]()
     
     lazy var tableView:UITableView = {
         let tv = UITableView(frame: .zero, style: .plain)
         tv.delegate = self
-        tv.register(UITableViewCell.self, forCellReuseIdentifier: tableViewCellIdentifier)
+        tv.dataSource = self
+        tv.register(AlbumTableViewCell.self, forCellReuseIdentifier: Constants.tableViewCellIdentifier)
         tv.translatesAutoresizingMaskIntoConstraints = false
         return tv
     }()
@@ -36,9 +43,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         toolbarItems = [undoBarButtonItem, flexibleSpace, trashBarButtonItem]
         navigationController?.toolbar.isUserInteractionEnabled = true
         
+        allAlbums = LibraryAPI.shared.getAlbums()
         
         view.addSubview(tableView)
         setupViews()
+        
+        showDataForAlbum(at: currentAlbumIndex)
         // Do any additional setup after loading the view, typically from a nib.
     }
 
@@ -48,15 +58,28 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         tableView.heightAnchor.constraint(equalToConstant: 320).isActive = true
     }
+    
+    fileprivate func showDataForAlbum(at index:Int) {
+        // defensive code: make sure the requested index is lower than the amount of albums
+        if (index < allAlbums.count && index > -1) {
+            let album = allAlbums[index]        // fetch the album
+            currentAlbumData = album.tableRepresentation
+        } else {
+            currentAlbumData = nil
+        }
+        tableView.reloadData()
+    }
 
     // MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 44
     }
-    
-    // MARK: - UITableViewDataSource
+}
+
+extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        guard let albumData = currentAlbumData else {  return 0 }
+        return albumData.count
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -64,7 +87,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.tableViewCellIdentifier, for: indexPath) as! AlbumTableViewCell
+        if let albumData = currentAlbumData {
+            let row = indexPath.row
+            cell.categoryLabel.text = albumData[row].title
+            cell.detailLabel.text = albumData[row].value
+        }
+        return cell
     }
 }
 
