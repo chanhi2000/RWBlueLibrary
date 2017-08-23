@@ -18,9 +18,17 @@ class ViewController: UIViewController, UITableViewDelegate {
     private let flexibleSpace:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
     private let trashBarButtonItem:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: nil)
     
-    private var currentAlbumIndex = 0
+    lazy var horizontalScrollerView:HorizontalScrollerView = {
+        let hsv = HorizontalScrollerView(frame: .zero)
+        hsv.translatesAutoresizingMaskIntoConstraints = false
+        hsv.delegate = self
+        hsv.dataSource = self
+        return hsv
+    }()
+    
+    var currentAlbumIndex = 0
     var currentAlbumData:[AlbumData]?
-    private var allAlbums = [Album]()
+    var allAlbums = [Album]()
     
     lazy var tableView:UITableView = {
         let tv = UITableView(frame: .zero, style: .plain)
@@ -33,7 +41,7 @@ class ViewController: UIViewController, UITableViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black
+        
         
         navigationItem.title = "Pop Music"
 
@@ -46,17 +54,24 @@ class ViewController: UIViewController, UITableViewDelegate {
         allAlbums = LibraryAPI.shared.getAlbums()
         
         view.addSubview(tableView)
+        view.addSubview(horizontalScrollerView)
         setupViews()
         
+        horizontalScrollerView.reload()
         showDataForAlbum(at: currentAlbumIndex)
-        // Do any additional setup after loading the view, typically from a nib.
+        
     }
 
     fileprivate func setupViews() {
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        tableView.heightAnchor.constraint(equalToConstant: 320).isActive = true
+        tableView.topAnchor.constraint(equalTo: horizontalScrollerView.bottomAnchor).isActive = true
+        
+        horizontalScrollerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        horizontalScrollerView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        horizontalScrollerView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        horizontalScrollerView.heightAnchor.constraint(equalToConstant: 120).isActive = true
     }
     
     fileprivate func showDataForAlbum(at index:Int) {
@@ -94,6 +109,32 @@ extension ViewController: UITableViewDataSource {
             cell.detailLabel.text = albumData[row].value
         }
         return cell
+    }
+}
+
+extension ViewController: HorizontalScrollerViewDelegate {
+    func horizontalScrollerView(_ horizontalScrollerView: HorizontalScrollerView, didSelectViewAt index: Int) {
+        let previousAlbumView = horizontalScrollerView.view(at: currentAlbumIndex) as! AlbumView
+        previousAlbumView.highlightAlbum(false)
+        currentAlbumIndex = index
+        
+        let albumView = horizontalScrollerView.view(at: currentAlbumIndex) as! AlbumView
+        albumView.highlightAlbum(true)
+        
+        showDataForAlbum(at: index)
+    }
+}
+
+extension ViewController: HorizontalScrollerViewDataSource {
+    func numberOfViews(in horizontalScrollerView: HorizontalScrollerView) -> Int {
+        return allAlbums.count
+    }
+    
+    func horizontalScrollerView(_ horizontalScrollerView: HorizontalScrollerView, viewAt index: Int) -> UIView {
+        let album = allAlbums[index]
+        let albumView = AlbumView(frame: CGRect(x:0, y:0, width:100, height:100), coverUrl: album.coverUrl)
+        albumView.highlightAlbum(currentAlbumIndex == index ? true : false)
+        return albumView
     }
 }
 
