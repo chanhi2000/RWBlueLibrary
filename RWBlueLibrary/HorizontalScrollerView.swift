@@ -98,6 +98,8 @@ class HorizontalScrollerView: UIView {
             let view = dataSource.horizontalScrollerView(self, viewAt: index)
             view.frame = CGRect(x: CGFloat(xValue), y: ViewConstants.Padding, width: ViewConstants.Dimensions, height: ViewConstants.Dimensions)
             scroller.addSubview(view)
+            
+            xValue += ViewConstants.Dimensions + ViewConstants.Padding
             return view
         }
         scroller.contentSize = CGSize(width: CGFloat(xValue + ViewConstants.Offset),
