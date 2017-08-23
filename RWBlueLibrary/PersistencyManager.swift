@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class PersistencyManager {
     private var albums = [Album]()
@@ -60,5 +61,22 @@ final class PersistencyManager {
     
     func deleteAlbum(at index:Int) {
         albums.remove(at: index)
+    }
+    
+    private var cache:URL {
+        // returns the URL of the cache directory
+        return FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+    }
+    
+    func saveImage(_ image:UIImage, filename:String) {
+        let url = cache.appendingPathComponent(filename)
+        guard let data = UIImagePNGRepresentation(image) else {  return  }
+        try? data.write(to: url)
+    }
+    
+    func getImage(with filename:String) -> UIImage? {
+        let url = cache.appendingPathComponent(filename)
+        guard let data = try? Data(contentsOf: url) else {  return nil  }
+        return UIImage(data: data)
     }
 }

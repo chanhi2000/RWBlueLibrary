@@ -51,6 +51,7 @@ class HorizontalScrollerView: UIView {
     }
     
     fileprivate func initializeScrollView() {
+        backgroundColor = .lightGray
         addSubview(scroller)
         scroller.leftAnchor.constraint(equalTo: leftAnchor).isActive=true
         scroller.rightAnchor.constraint(equalTo: rightAnchor).isActive=true
@@ -93,11 +94,12 @@ class HorizontalScrollerView: UIView {
         contentViews.forEach({  $0.removeFromSuperview()  })  //remove the old content
         
         var xValue = ViewConstants.Offset
-        contentViews = (  0..<dataSource.numberOfViews(in: self)  ).map { index in
+        contentViews = (0..<dataSource.numberOfViews(in: self)).map { index in
             xValue += ViewConstants.Padding
             let view = dataSource.horizontalScrollerView(self, viewAt: index)
             view.frame = CGRect(x: CGFloat(xValue), y: ViewConstants.Padding, width: ViewConstants.Dimensions, height: ViewConstants.Dimensions)
             scroller.addSubview(view)
+            xValue += ViewConstants.Dimensions + ViewConstants.Padding
             return view
         }
         scroller.contentSize = CGSize(width: CGFloat(xValue + ViewConstants.Offset),
@@ -105,9 +107,11 @@ class HorizontalScrollerView: UIView {
     }
     
     func centerCurrentView() {
-        let centerRect = CGRect(origin: CGPoint(x: scroller.bounds.midX - ViewConstants.Padding, y: 0),
-                                size: CGSize(width: ViewConstants.Padding, height: bounds.height))
-        guard let selectedIndex = contentViews.index(where: {$0.frame.intersects(centerRect)}) else {  return  }
+        let centerRect = CGRect(
+            origin: CGPoint(x: scroller.bounds.midX - ViewConstants.Padding, y: 0),
+            size: CGSize(width: ViewConstants.Padding, height: bounds.height)
+        )
+        guard let selectedIndex = contentViews.index(where: {  $0.frame.intersects(centerRect)  }) else {  return  }
         let centralView = contentViews[selectedIndex]
         let targetCenter = centralView.center
         let targetoffsetX = targetCenter.x - (scroller.bounds.width/2)

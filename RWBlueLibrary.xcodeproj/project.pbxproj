@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B50BF1B81F4DB5A7009BB731 /* NotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50BF1B71F4DB5A7009BB731 /* NotificationExtension.swift */; };
 		B5F8A16A1F4D5FFC007EBF4F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F8A1691F4D5FFC007EBF4F /* AppDelegate.swift */; };
 		B5F8A16C1F4D5FFC007EBF4F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F8A16B1F4D5FFC007EBF4F /* ViewController.swift */; };
 		B5F8A16F1F4D5FFC007EBF4F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5F8A16D1F4D5FFC007EBF4F /* Main.storyboard */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B50BF1B71F4DB5A7009BB731 /* NotificationExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationExtension.swift; sourceTree = "<group>"; };
 		B5F8A1661F4D5FFC007EBF4F /* RWBlueLibrary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RWBlueLibrary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5F8A1691F4D5FFC007EBF4F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5F8A16B1F4D5FFC007EBF4F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -49,6 +51,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B50BF1B61F4DB594009BB731 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				B50BF1B71F4DB5A7009BB731 /* NotificationExtension.swift */,
+			);
+			name = Extension;
+			sourceTree = "<group>";
+		};
 		B5F8A15D1F4D5FFB007EBF4F = {
 			isa = PBXGroup;
 			children = (
@@ -68,6 +78,7 @@
 		B5F8A1681F4D5FFC007EBF4F /* RWBlueLibrary */ = {
 			isa = PBXGroup;
 			children = (
+				B50BF1B61F4DB594009BB731 /* Extension */,
 				B5F8A1831F4D782B007EBF4F /* API */,
 				B5F8A1821F4D757D007EBF4F /* View */,
 				B5F8A1811F4D7572007EBF4F /* Controller */,
@@ -199,6 +210,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B50BF1B81F4DB5A7009BB731 /* NotificationExtension.swift in Sources */,
 				B5F8A16C1F4D5FFC007EBF4F /* ViewController.swift in Sources */,
 				B5F8A1851F4D7835007EBF4F /* HTTPClient.swift in Sources */,
 				B5F8A1901F4D8EC7007EBF4F /* HorizontalScrollerView.swift in Sources */,
