@@ -8,10 +8,10 @@
 
 import Foundation
 
-final class LIbraryAPI {
+final class LibraryAPI {
     
     // to give other objects access to it
-    static let shared = LIbraryAPI()
+    static let shared = LibraryAPI()
     
     // to prvent creating another new instance outside.
     private init() {
