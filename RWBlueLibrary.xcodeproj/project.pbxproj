@@ -14,6 +14,7 @@
 		B5F8A1741F4D5FFC007EBF4F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5F8A1721F4D5FFC007EBF4F /* LaunchScreen.storyboard */; };
 		B5F8A17D1F4D7315007EBF4F /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F8A17C1F4D7315007EBF4F /* Album.swift */; };
 		B5F8A17F1F4D7384007EBF4F /* AlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F8A17E1F4D7384007EBF4F /* AlbumView.swift */; };
+		B5F8A1851F4D7835007EBF4F /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F8A1841F4D7835007EBF4F /* HTTPClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		B5F8A1751F4D5FFC007EBF4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B5F8A17C1F4D7315007EBF4F /* Album.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Album.swift; path = RWBlueLibrary/Album.swift; sourceTree = "<group>"; };
 		B5F8A17E1F4D7384007EBF4F /* AlbumView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumView.swift; sourceTree = "<group>"; };
+		B5F8A1841F4D7835007EBF4F /* HTTPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 		B5F8A1681F4D5FFC007EBF4F /* RWBlueLibrary */ = {
 			isa = PBXGroup;
 			children = (
+				B5F8A1831F4D782B007EBF4F /* API */,
 				B5F8A1821F4D757D007EBF4F /* View */,
 				B5F8A1811F4D7572007EBF4F /* Controller */,
 				B5F8A1801F4D7560007EBF4F /* Model */,
@@ -101,6 +104,14 @@
 				B5F8A17E1F4D7384007EBF4F /* AlbumView.swift */,
 			);
 			name = View;
+			sourceTree = "<group>";
+		};
+		B5F8A1831F4D782B007EBF4F /* API */ = {
+			isa = PBXGroup;
+			children = (
+				B5F8A1841F4D7835007EBF4F /* HTTPClient.swift */,
+			);
+			name = API;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -177,6 +188,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5F8A16C1F4D5FFC007EBF4F /* ViewController.swift in Sources */,
+				B5F8A1851F4D7835007EBF4F /* HTTPClient.swift in Sources */,
 				B5F8A16A1F4D5FFC007EBF4F /* AppDelegate.swift in Sources */,
 				B5F8A17F1F4D7384007EBF4F /* AlbumView.swift in Sources */,
 				B5F8A17D1F4D7315007EBF4F /* Album.swift in Sources */,
