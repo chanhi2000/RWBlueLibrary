@@ -8,13 +8,43 @@
 
 import Foundation
 
-final class LIbraryAPI {
+final class LibraryAPI {
+    
+    private let persistencyManager = PersistencyManager()
+    private let httpClient = HTTPClient()
+    private let isOnline = false
     
     // to give other objects access to it
-    static let shared = LIbraryAPI()
+    static let shared = LibraryAPI()
     
     // to prvent creating another new instance outside.
     private init() {
         
+    }
+    
+    func getAlbums() -> [Album] {
+        return persistencyManager.getAlbums()
+    }
+    
+    func addAlbum(_ album:Album, at index:Int) {
+        /*
+           update the data locally.
+           if there's a conncetion, update the remote server
+         */
+        persistencyManager.addAlbum(album, at: index)
+        if isOnline {
+            httpClient.postRequest("/api/addAlbum", body: album.description)
+        }
+    }
+    
+    func deleteAlbum(at index:Int) {
+        /*
+            update the data locally.
+            if there's a conncetion, update the remote server
+         */
+        persistencyManager.deleteAlbum(at: index)
+        if isOnline {
+            httpClient.postRequest("/api/deleteAlbum", body: "\(index)")
+        }
     }
 }
